@@ -55,14 +55,14 @@ public class CommonDB {
 	 *	登録、編集画面から使用
 	 *	交通機関、出発駅、到着駅を受け取り、LIKE句をかけて絞り込む
 	 **/
-	public static ResultSet getTransitDataAll(int transit_no, String from_st, String to_st) {
+	public static ResultSet getTransitDataAll(String transit_no, String from_st, String to_st,int limitSta) {
 		try {
 			/**
 			 * 受け取った値の確認
 			 * 受け取った値がnullであれば空文字("")を代入
 			 * そうでなければそのまま代入する
 			 **/
-			String transitNo = (transit_no == 0) ? "'%%' " : "'%" + transit_no + "%' ";
+			transit_no = (transit_no == null) ? "'%%' " : "'%" + transit_no + "%' ";
 			from_st = (from_st == null) ? "'%%' " : "'%" + from_st + "%' ";
 			to_st = (to_st == null) ? "'%%' " : "'%" + to_st + "%' ";
 			//DBへ接続
@@ -72,10 +72,11 @@ public class CommonDB {
 			String getQuery = "SELECT transit_data.data_id,transit_data.transit_no,transit.transit_name,transit_data.from_st,transit_data.to_st,transit_data.price "
 					+ "FROM transit_data , transit "
 					+ "WHERE transit_data.transit_no = transit.transit_no "
-					+ "AND transit_data.transit_no LIKE " + transitNo
+					+ "AND transit_data.transit_no LIKE " + transit_no
 					+ "AND transit_data.from_st LIKE " + from_st
 					+ "AND transit_data.to_st LIKE " + to_st
-					+ "ORDER BY transit_data.data_id ASC;";
+					+ "ORDER BY transit_data.data_id ASC "
+					+ "LIMIT " + limitSta + " , 10;";
 			return stmt.executeQuery(getQuery);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -88,16 +89,17 @@ public class CommonDB {
 	/**
 	 *	登録、編集画面から使用
 	 *	交通機関、出発駅、到着駅を受け取り、LIKE句をかけて絞り込む
-	 *	絞り込んだ件数を返す
+	 *	絞り込んだ件数を返す  transitNo
 	 **/
-	public static int getTransitDataCnt(int transit_no, String from_st, String to_st) {
+	public static int getTransitDataCnt(String transit_no, String from_st, String to_st) {
 		try {
 			/**
 			 * 受け取った値の確認
 			 * 受け取った値がnullであれば空文字("")を代入
 			 * そうでなければそのまま代入する
 			 **/
-			String transitNo = (transit_no == 0) ? "'%%' " : "'%" + transit_no + "%' ";
+			//String transitNo = (transit_no == 0) ? "'%%' " : "'%" + transit_no + "%' ";
+			transit_no = (transit_no == null) ? "'%%' " : "'%" + transit_no + "%' ";
 			from_st = (from_st == null) ? "'%%' " : "'%" + from_st + "%' ";
 			to_st = (to_st == null) ? "'%%' " : "'%" + to_st + "%' ";
 			//DBへ接続
@@ -107,7 +109,7 @@ public class CommonDB {
 			String getQuery = "SELECT count(*) AS count "
 					+ "FROM transit_data , transit "
 					+ "WHERE transit_data.transit_no = transit.transit_no "
-					+ "AND transit_data.transit_no LIKE " + transitNo
+					+ "AND transit_data.transit_no LIKE " + transit_no
 					+ "AND transit_data.from_st LIKE " + from_st
 					+ "AND transit_data.to_st LIKE " + to_st
 					+ "ORDER BY transit_data.data_id ASC;";
