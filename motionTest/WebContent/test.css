@@ -1,0 +1,53 @@
+@charset "UTF-8";
+
+body{
+	font-family: "游ゴシック" ;
+}
+
+table.transitListCss{
+	border-collapse: collapse;
+	text-align: center;
+	width:500px;
+	table-layout: fixed;
+}
+
+table.transitListCss td,table.transitListCss th{
+
+	padding:0.25em;
+}
+
+table.transitListCss th{
+	border-bottom: 3px double;
+}
+
+.transitname{
+	width:20%;
+}
+
+.from_st{
+	width:26%;
+}
+
+.to_st{
+	width:26%;
+}
+
+.price{
+	width:16%;
+}
+
+.select{
+	width:12%;
+}
+
+.selectbt{
+    text-align:center;
+    text-decoration:none;
+}
+
+.returnbt{
+	width:170px;
+    text-decoration:none;
+    border:1px solid #333;
+    background-color: #fff;
+}
