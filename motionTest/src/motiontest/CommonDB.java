@@ -196,7 +196,7 @@ public class CommonDB {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection connect = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 			Statement stmt = connect.createStatement();
-			String getQuery = "SELECT count(*) AS count" +
+			String getQuery = "SELECT count(*) AS count " +
 					"FROM transit_list " +
 					"WHERE user_id = " + user_id + " " +
 					"AND delete_flg = 0 " + " ;";
